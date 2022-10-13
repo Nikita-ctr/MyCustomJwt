@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig  {
+public class WebSecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -27,7 +27,7 @@ public class WebSecurityConfig  {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
@@ -50,11 +50,11 @@ public class WebSecurityConfig  {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
-        .cors().and()
+                .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers("/auth/**")
-                                .permitAll().anyRequest().authenticated());
+                        .antMatchers("/auth/**")
+                        .permitAll().anyRequest().authenticated());
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
         http.exceptionHandling().accessDeniedPage("/error");

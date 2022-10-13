@@ -44,26 +44,25 @@ public class RegisterService {
         if (!userRepository.existsByUsername(registerRequest.getUsername())) {
             User user = new User();
 
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(Instant.now());
-        user.setEnabled(false);
-        user.setAppUserRoles(new ArrayList<>(Arrays.asList(AppUserRole.ROLE_USER)));
+            user.setUsername(registerRequest.getUsername());
+            user.setEmail(registerRequest.getEmail());
+            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            user.setCreated(Instant.now());
+            user.setEnabled(false);
+            user.setAppUserRoles(new ArrayList<>(Arrays.asList(AppUserRole.ROLE_USER)));
 
-        userRepository.save(user);
+            userRepository.save(user);
 
-        String token = generateVerificationToken(user);
+            String token = generateVerificationToken(user);
 
-        Email email = mailService.generateEmail(user, token);
+            Email email = mailService.generateEmail(user, token);
 
-        mailService.sendMail(email);
+            mailService.sendMail(email);
 
-    } else
-        throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+        } else throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    private String generateVerificationToken(User user){
+    private String generateVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
 
         VerificationToken verificationToken = new VerificationToken();
@@ -75,12 +74,12 @@ public class RegisterService {
         return token;
     }
 
-    public void verifyAccount(String token){
+    public void verifyAccount(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByTokenValue(token);
         fetchUserAndEnable(verificationToken);
     }
 
-    private void fetchUserAndEnable(VerificationToken verificationToken){
+    private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         User user = userRepository.findByUsername(username);
 

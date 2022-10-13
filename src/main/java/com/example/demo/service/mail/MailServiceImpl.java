@@ -31,7 +31,7 @@ public class MailServiceImpl {
     }
 
     @Async
-    public void sendMail(Email email)  {
+    public void sendMail(Email email) {
         MimeMessage message = emailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
@@ -45,11 +45,12 @@ public class MailServiceImpl {
 
             logger.debug("Sending email: {} with html body: {}", email, html);
             emailSender.send(message);
-        }  catch (MessagingException e){
+        } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
-    public Email generateEmail(User user, String token){
+
+    public Email generateEmail(User user, String token) {
 
         String link = "http://localhost:8080/auth/accountVerification/" + token;
 
@@ -61,7 +62,7 @@ public class MailServiceImpl {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("name", user.getUsername());
-        properties.put("link",link);
+        properties.put("link", link);
 
         email.setProperties(properties);
 

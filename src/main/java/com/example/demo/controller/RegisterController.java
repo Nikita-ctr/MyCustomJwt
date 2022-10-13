@@ -12,19 +12,19 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
-    public RegisterController(RegisterService registerService){
+    public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
         registerService.signup(registerRequest);
         return new ResponseEntity<>("User registration successful", HttpStatus.OK);
     }
 
     @GetMapping("/accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token){
-       registerService.verifyAccount(token);
-       return new ResponseEntity<>("Account activated successfully",HttpStatus.OK);
+    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
+        registerService.verifyAccount(token);
+        return new ResponseEntity<>("Account activated successfully", HttpStatus.OK);
     }
 }

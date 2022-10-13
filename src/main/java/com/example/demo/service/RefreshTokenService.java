@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.RefreshToken;
-import com.example.demo.exception.CustomException;
 import com.example.demo.repo.RefreshTokenRepository;
 import com.example.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,7 @@ public class RefreshTokenService {
     }
 
     public Optional<RefreshToken> findByToken(String token) {
-      return refreshTokenRepository.findByToken(token);
+        return refreshTokenRepository.findByToken(token);
     }
 
     public RefreshToken createRefreshToken(Long userId) {

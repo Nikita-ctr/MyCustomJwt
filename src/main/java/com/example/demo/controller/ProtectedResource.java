@@ -9,7 +9,7 @@ public class ProtectedResource {
 
     @GetMapping("/get")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String getProtected(){
+    public String getProtected() {
         return "Secret";
     }
 }
